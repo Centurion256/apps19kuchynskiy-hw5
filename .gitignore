@@ -1,0 +1,5 @@
+target/*
+.settings/*
+.vscode/launch.json
+.project
+.classpath
