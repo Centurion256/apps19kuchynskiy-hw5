@@ -21,17 +21,18 @@ public class IntStreamFlatMapIterator implements Iterator<Integer>
     {
         this.wrapped = wrapped;
         this.mapper = mapper;
+        this.gotoNext();
     }
 
     public boolean hasNext()
     {
-        return this.wrapped.hasNext();
+        return (this.localIndex < this.localArray.length);
     }
 
     private void gotoNext()
     {
         this.localIndex++;
-        if (localIndex >= localArray.length)
+        if ((localIndex >= localArray.length)  && (this.wrapped.hasNext())) 
         {
             int nextValue = this.wrapped.next();
             IntStream stream = this.mapper.applyAsIntStream(nextValue);
@@ -43,8 +44,9 @@ public class IntStreamFlatMapIterator implements Iterator<Integer>
 
     public Integer next()
     {
+        int currVal = this.localArray[this.localIndex];
         this.gotoNext();
-        return this.localArray[this.localIndex];
+        return currVal;
     }
     
 
